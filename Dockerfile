@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y \
   tar \
   git \
   libncurses5-dev \
+  openocd \
 && rm -rf /var/lib/apt/lists/*
 
 RUN ln -s /usr/bin/python3.5 /usr/bin/python
@@ -28,6 +29,9 @@ RUN mkdir /opt/stm32loader/ && \
     wget https://raw.githubusercontent.com/jsnyder/stm32loader/master/stm32loader.py && \
     chmod +x /opt/stm32loader/stm32loader.py && \
     ln -s /opt/stm32loader/stm32loader.py /usr/local/bin/stm32loader
+
+RUN cp /usr/share/openocd/scripts/target/stm32f1x.cfg /usr/share/openocd/scripts/target/cks32f1x.cfg \
+&& sed -i 's/0x1ba01477/0x2ba01477/g' /usr/share/openocd/scripts/target/cks32f1x.cfg
 
 ARG UID=1000
 ARG GID=1000
